@@ -1,6 +1,3 @@
-git config user.email "ceswope"
-  git config --global user.name "Your Name"
-
 import random
 
 # Define card ranks and suits
