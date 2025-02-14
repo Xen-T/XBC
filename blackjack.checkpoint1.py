@@ -3,7 +3,7 @@ import pygame
 import sys
 from PIL import Image, ImageDraw, ImageFont  # For generating card images
 
-
+#this defines our cards and their values in the game
 ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
 values = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
@@ -11,7 +11,7 @@ values = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 
 
 pygame.init()
 
-
+#lines 15-36 is all appearance stuffs for the game
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -35,7 +35,7 @@ CARD_HEIGHT = 120
 BUTTON_WIDTH = 100
 BUTTON_HEIGHT = 50
 
-
+#we had an llm help us with the card design, this is for generating the card image
 def generate_card_images():
     from PIL import Image, ImageDraw, ImageFont
 
@@ -67,7 +67,7 @@ def generate_card_images():
 
     print("Card images generated successfully!")
 
-#LLM
+
 try:
     card_images = {}
     for suit in suits:
@@ -86,7 +86,8 @@ except FileNotFoundError:
             card_images[(rank, suit)] = pygame.image.load(f"cards/{card_name}")
     card_images[('back', 'back')] = pygame.image.load("cards/back_of_back.png")
 
-
+#the class function creates objects and the init initializes objects with values
+#so 91-109 is creating objects with different attributes and behaviors for card, deck, hand
 class Card:
     def __init__(self, rank, suit):
         self.rank = rank
@@ -124,7 +125,7 @@ class Hand:
     def __str__(self):
         return ', '.join(str(card) for card in self.cards)
 
-
+#129-144 is more about drawing text on the screen and draw_cards is drawing from the hand onto the screen
 def draw_text(text, x, y, color=WHITE):
     text_surface = font.render(text, True, color)
     screen.blit(text_surface, (x, y))
@@ -142,7 +143,7 @@ def draw_button(text, x, y, width, height, color):
     pygame.draw.rect(screen, color, (x, y, width, height))
     draw_text(text, x + 10, y + 10, BLACK)
 
-
+#this starts the game, the player and the dealer both recieve their initial cards with lines 151-159
 def play_blackjack():
     print("Welcome to Blackjack!")
 
@@ -161,7 +162,7 @@ def play_blackjack():
     running = True
     player_turn = True
     game_over = False
-
+#this is for the green board and rendering the messages on the screen; draw_text and draw_cards for when the player takes actions
     while running:
         screen.fill(GREEN)
 
@@ -180,7 +181,7 @@ def play_blackjack():
         draw_text(f"Your hand value: {player_hand.hand_value()}", 50, 250)
         if not player_turn or game_over:
             draw_text(f"Dealer's hand value: {dealer_hand.hand_value()}", 50, 500)
-
+#draw_button and player_turn is when the player can choose to draw a card or stand if they have not lost yet.
 
         if player_turn and not game_over:
             draw_button("Hit", 600, 100, BUTTON_WIDTH, BUTTON_HEIGHT, BLUE)
@@ -205,14 +206,15 @@ def play_blackjack():
 
                     elif 600 <= mouse_x <= 600 + BUTTON_WIDTH and 200 <= mouse_y <= 200 + BUTTON_HEIGHT:
                         player_turn = False
-
+#211 is a loop that essentially makes it so as long as the dealer has a value <17, they will draw cards until they get 17 or above
 
         if not player_turn and not game_over:
             while dealer_hand.hand_value() < 17:
                 dealer_hand.add_card(deck.deal_card())
             game_over = True
 
-
+#the following code has a bunch of if, then statements regarding winning or losing the game
+#the cards value that is defined gets calculated, and if it is over 21, text is rendered saying we lost
         if game_over:
             player_value = player_hand.hand_value()
             dealer_value = dealer_hand.hand_value()
