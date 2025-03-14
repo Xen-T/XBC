@@ -45,7 +45,7 @@ font = pygame.font.Font(None, 36)
 card_images = {}
 for suit in suits:
     for rank in ranks:
-        card_name = f"XBC/cards/{rank}_of_{suit.lower()}.png"  # Updated path
+        card_name = f"XBC/cards/{rank}_of_{suit.lower()}.png"  # Path for cards
         try:
             image = pygame.image.load(card_name)
             card_images[(rank, suit)] = pygame.transform.scale(image, (CARD_WIDTH, CARD_HEIGHT))
@@ -116,6 +116,33 @@ def draw_cards(hand, x, y, hide_first_card=False):
 def draw_button(text, x, y, width, height, color):
     pygame.draw.rect(screen, color, (x, y, width, height))
     draw_text(text, x + 10, y + 10, BLACK)
+
+# Function to display the home screen
+def home_screen():
+    home_screen_running = True
+    while home_screen_running:
+        screen.fill(GREEN)
+
+        # Draw "Welcome to Blackjack" text
+        draw_text("Welcome to Blackjack!", SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT // 2 - 100, WHITE)
+
+        # Draw "Start Game" button
+        draw_button("Start Game", SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2, SCREEN_HEIGHT // 2, BUTTON_WIDTH, BUTTON_HEIGHT, BLUE)
+
+        # Update the display
+        pygame.display.flip()
+
+        # Event handling for the home screen
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                # Check if the "Start Game" button is clicked
+                if (SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2 <= mouse_x <= SCREEN_WIDTH // 2 + BUTTON_WIDTH // 2 and
+                    SCREEN_HEIGHT // 2 <= mouse_y <= SCREEN_HEIGHT // 2 + BUTTON_HEIGHT):
+                    home_screen_running = False  # Exit the home screen and start the game
 
 # Main game function
 def play_blackjack():
@@ -234,4 +261,5 @@ def play_blackjack():
 
 # Run the game
 if __name__ == '__main__':
-    play_blackjack()
+    home_screen()  # Display the home screen first
+    play_blackjack()  # Start the game after the home screen
