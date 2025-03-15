@@ -5,6 +5,6 @@ The player competes against the dealer, and the player wins if their hand value 
 
 ## Instructions
 1. Clone the repository.
-2. Run the `blackjack.midterm.py` script using Python.
+2. Run the `blackjackmidterm.py` script using Python.
 3. Ensure you have Pygame installed, have the card deck, and the jazz mp3 included in the repo.
 4. Enjoy the game!
