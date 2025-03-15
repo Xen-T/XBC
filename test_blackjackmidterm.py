@@ -1,8 +1,7 @@
 import unittest
 import random
 
-# Import the classes and functions from your game code
-from blackjackmidterm import Card, Deck, Hand, values  # Replace 'your_game_file' with the name of your Python file
+from blackjackmidterm import Card, Deck, Hand, values
 
 class TestBlackjack(unittest.TestCase):
     def test_card_creation(self):
